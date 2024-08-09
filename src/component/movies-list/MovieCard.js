@@ -10,13 +10,15 @@ const MovieCard = ({ data }) => {
         router.push(`movie/${id}`)
     }
     return (
-        <Col xs={6} sm={4} md={3} onClick={() => handleNavigate(data.id)}>
+        <Col xs={6} sm={6} lg={3} onClick={() => handleNavigate(data.id)}>
             <Card className="movie-card mb-3">
-                <img
-                    src={data.thumb || PLACEHOLDER_IMAGE}
-                    alt="movie"
-                    className="img-fluid movie-thumb"
-                />
+                <div className='movie-thumb-box'>
+                    <img
+                        src={data.thumb || PLACEHOLDER_IMAGE}
+                        alt="movie"
+                        className="img-fluid movie-thumb"
+                    />
+                </div>
                 <CardBody>
                     <h4 className="movie-title">{data.title}</h4>
                     <p>{data.publishing_year}</p>

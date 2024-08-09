@@ -1,12 +1,13 @@
 "use client";
 import { authLogin } from "@/Redux/Slices/authSlice";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import authService from "@/service/auth.service";
 import { useRouter } from "next/navigation";
+import Cookie from "js-cookie";
 
 const SignIpSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -16,12 +17,34 @@ const SignIpSchema = Yup.object().shape({
     .required("Required"),
 });
 
+const initialValue = {
+  password: "",
+  email: "",
+};
+
 const SignIn = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [initialValues, setInitialValues] = useState(initialValue);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const email = Cookie.get("email") || "";
+    const password = Cookie.get("password") || "";
+    setInitialValues({
+      email,
+      password,
+    });
+  }, []);
+
   const handleLogin = async (data) => {
+    if (data?.rememberMe) {
+      Cookie.set("email", data.email, { expires: 30 });
+      Cookie.set("password", data?.password, { expires: 30 });
+    } else {
+      Cookie.remove("email");
+      Cookie.remove("password");
+    }
     setLoading(true);
     const res = await authService.signIn(data);
     setLoading(false);
@@ -39,14 +62,12 @@ const SignIn = () => {
             <h2 className="form-title">Sign in</h2>
             <div>
               <Formik
-                initialValues={{
-                  password: "",
-                  email: "",
-                }}
+                enableReinitialize
+                initialValues={initialValues}
                 validationSchema={SignIpSchema}
                 onSubmit={handleLogin}
               >
-                {({ errors, touched }) => (
+                {({ values, errors, touched }) => (
                   <Form className="form-card">
                     <div className="form-group">
                       <Field
@@ -64,6 +85,7 @@ const SignIn = () => {
                     </div>
                     <div className="form-group">
                       <Field
+                        type="password"
                         name="password"
                         className={`form-control ${
                           errors.password && touched.password
@@ -78,7 +100,19 @@ const SignIn = () => {
                         className="invalid-feedback"
                       />
                     </div>
-
+                    <div className="form-group checkbox-group">
+                      <div>
+                        <Field
+                          id="rememberMe"
+                          type="checkbox"
+                          name="rememberMe"
+                          className="form-check"
+                          checked={values?.rememberMe}
+                        />
+                        <span className="checkbox-custom"></span>
+                      </div>
+                      <label for="rememberMe">Remember me</label>
+                    </div>
                     <Button type="submit" disabled={loading}>
                       Login
                     </Button>

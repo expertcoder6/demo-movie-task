@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -22,24 +21,20 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const handleSignUp = async (data) => {
-    try {
-      setLoading(true);
-      const res = await authService.signUp(data);
-      if (res) {
-        const request = {
-          email: data.email,
-          password: data.password,
-        };
-        const loginRes = await authService.signIn(request);
-        setLoading(false);
-        if (loginRes?.token) {
-          dispatch(authLogin(loginRes));
-          router.push("/");
-        }
+    setLoading(true);
+    const res = await authService.signUp(data);
+    if (res) {
+      const request = {
+        email: data.email,
+        password: data.password,
+      };
+      const loginRes = await authService.signIn(request);
+      if (loginRes?.token) {
+        dispatch(authLogin(loginRes));
+        router.push("/");
       }
-    } catch (error) {
-      return error;
     }
+    setLoading(false);
   };
 
   return (
@@ -90,6 +85,7 @@ const SignUp = () => {
                     </div>
                     <div className="form-group">
                       <Field
+                        type="password"
                         name="password"
                         className={`form-control ${
                           errors.password && touched.password

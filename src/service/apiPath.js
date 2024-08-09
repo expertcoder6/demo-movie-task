@@ -4,8 +4,7 @@ const apiPath = {
         signUp: 'signup'
     },
     movies: {
-        create: '/films',
-        list: '/getdata'
+        movies: '/films'
     }
 }
 export default apiPath;

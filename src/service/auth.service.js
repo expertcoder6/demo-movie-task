@@ -27,7 +27,7 @@ async function signUp(body) {
 }
 
 async function movieList(param) {
-    const res = await API.post(`${apiPath.movies.list}?${param}`);
+    const res = await API.get(`${apiPath.movies.movies}?${param}`);
     if (res?.status === 200) {
         return res?.data
     }
@@ -35,7 +35,7 @@ async function movieList(param) {
 }
 
 async function movieDetails(id, body) {
-    const res = await API.get(`${apiPath.movies.create}/${id}`, body);
+    const res = await API.get(`${apiPath.movies.movies}/${id}`, body);
     if (res?.status === 200) {
         return res?.data
     }
@@ -43,7 +43,7 @@ async function movieDetails(id, body) {
 }
 
 async function createMovie(body) {
-    const res = await API.post(`${apiPath.movies.create}`, body);
+    const res = await API.post(`${apiPath.movies.movies}`, body);
     if (res?.status === 200) {
         return res?.data
     }
