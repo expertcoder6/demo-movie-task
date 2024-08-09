@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
