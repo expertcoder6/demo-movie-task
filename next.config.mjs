@@ -1,14 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    target: 'serverless',
-    async rewrites() {
-        return [
-            {
-                source: '/api/:path*',
-                destination: 'https://demo-movie-task.vercel.app*',
-            },
-        ];
-    },
-};
+const nextConfig = {};
 
 export default nextConfig;
