@@ -31,11 +31,9 @@ const AxiosProvider = ({ children }) => {
     axiosInstance.interceptors.response.use(
       (response) => {
         if (response?.status === 200) {
-          debugger
           return response;
         }
         if (!response) {
-          debugger
           return toast.error("Network Error")
         }
       },

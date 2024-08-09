@@ -5,7 +5,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: 'http://demo-movie-task.vercel.app*',
+                destination: 'https://demo-movie-task.vercel.app*',
             },
         ];
     },
