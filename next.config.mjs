@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    forceHttp: true,
+    experimental: {
+        forceHttp: true,
+    },
     async rewrites() {
         return [
             {
